@@ -1,9 +1,11 @@
-import { Fab, Modal, Slide } from "@mui/material";
+import { Fab, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ListSubheader, Modal, Slide } from "@mui/material";
 import { Box, styled } from "@mui/system";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import React from "react";
 import { Link } from "react-router-dom";
+import LinkIcon from '@mui/icons-material/Link';
+import AnalyticssIcon from '@mui/icons-material/Analytics';
 
 const MyFab = styled(Fab)({
     margin: '0',
@@ -17,7 +19,7 @@ const MyFab = styled(Fab)({
 
 const MyBox = styled(Box)({
     padding: '1.5rem 5%',
-    backgroundColor: '#fff',
+    backgroundColor: '#f6efe8',
     height: '100%'
 });
 
@@ -29,6 +31,29 @@ const TemplateMenu = () => {
 
     const icon = open ? <CloseIcon/> : <MenuIcon/>;
 
+    const menu =
+    <List
+      subheader={
+        <ListSubheader sx={{fontSize: '1.8rem', paddingX: '32px', fontWeight: 'bold', color: '#9c27b0', backgroundColor: 'transparent'}}>Menu</ListSubheader>
+        }>
+        <ListItem>
+            <ListItemButton component={Link} to="/sales">
+                <ListItemIcon>
+                    <AnalyticssIcon/>
+                </ListItemIcon>
+                <ListItemText primary="Sales Overview"/>
+            </ListItemButton>
+        </ListItem>
+        <ListItem>
+            <ListItemButton component={Link} to="/linking">
+                <ListItemIcon>
+                    <LinkIcon/>
+                </ListItemIcon>
+                <ListItemText primary="Linking"/>
+            </ListItemButton>
+        </ListItem>
+    </List>;
+
     return <div>
         <MyFab color="secondary" onClick={() => toggle()}>
             {icon}
@@ -38,8 +63,7 @@ const TemplateMenu = () => {
             onClose={handleClose}>
                 <Slide direction="up" in={open}>
                     <MyBox>
-                        <div><Link to="/linking">Linking Page</Link></div>
-                        <div><Link to="/sales">Sales Overview</Link></div>
+                        {menu}
                     </MyBox>
                 </Slide>
         </Modal>
