@@ -1,19 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
 import CommerceHub from './commercehub/commercehub';
 import Auth0ProviderWithEnv from './commercehub/auth/auth0-provider-with-env';
 import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Auth0ProviderWithEnv>
-        <CommerceHub/>
-      </Auth0ProviderWithEnv>
-    </BrowserRouter>
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Auth0ProviderWithEnv>
+      <CommerceHub />
+    </Auth0ProviderWithEnv>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 

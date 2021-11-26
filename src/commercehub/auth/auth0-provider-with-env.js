@@ -11,7 +11,6 @@ const Auth0ProviderWithEnv = ({children}) => {
 
     const history = useHistory();
 
-    // TODO: Understand what shorthand is that ...
     const onRedirectCallback = (appState) => {
         history.push( appState?.returnTo || window.location.pathname );
     };
