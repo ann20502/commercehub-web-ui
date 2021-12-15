@@ -15,6 +15,7 @@ import NotFound from './page/not-found';
 import LinkingEdit from './page/linking-edit';
 import NoAccess from './page/no-access';
 import TaskOverview from './page/task-overview';
+import MainLayout from './layout/MainLayout';
 
 const CommerceHub = () => {
     return <StyledEngineProvider injectFirst>
@@ -53,7 +54,7 @@ const CommerceHub = () => {
                     <LoginRedirect/>
                 </Route>
                 <Route exact path="/not-authorized">
-                    <NoAccess/>
+                    <MainLayout><NoAccess/></MainLayout>
                 </Route>
                 <Route path="*">
                     <NotFound/>
