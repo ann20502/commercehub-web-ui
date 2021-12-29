@@ -1,6 +1,6 @@
 # Commercehub Web UI
 
-This is the UI module for the Commerce Hub project.
+This is the UI module for the Commercehub project.
 
 
 # Frameworks & Stacks
