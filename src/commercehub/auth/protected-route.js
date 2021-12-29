@@ -6,12 +6,12 @@ import withRoleRequired from "./with-role-required";
 
 const ProtectedRoute = ({ component, ...args }) => {
 
-  const ROLE_ADMIN = process.env.REACT_APP_AUTH_ROLE_ADMIN;
+  const ROLE_TO_CHECK = process.env.REACT_APP_AUTH_ROLE_TO_CHECK;
 
   return <Route
     component={
       withAuthenticationRequired(
-        () => withRoleRequired(component, ROLE_ADMIN),
+        () => withRoleRequired(component, ROLE_TO_CHECK),
         {
           onRedirecting: () => <LoggingIn />,
         }
