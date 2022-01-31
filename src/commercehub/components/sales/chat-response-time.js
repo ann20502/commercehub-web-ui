@@ -46,6 +46,7 @@ const ChatResponseTime = (props) => {
             <Typography
               color="textPrimary"
               variant="h4"
+              sx={{ fontSize: '18px' }}
             >
               CHAT RESPONSE TIME
             </Typography>
@@ -54,8 +55,8 @@ const ChatResponseTime = (props) => {
             <Avatar
               sx={{
                 backgroundColor: green[600],
-                height: 56,
-                width: 56
+                height: 50,
+                width: 50
               }}
             >
               <ChatIcon />

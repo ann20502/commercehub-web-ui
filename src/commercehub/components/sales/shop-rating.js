@@ -45,7 +45,8 @@ const ShopRating = (props) => {
             </Typography>
             <Typography
               color="textPrimary"
-              variant="h4"
+              variant="h5"
+              sx={{ fontSize: '18px' }}
             >
               SHOP RATING
             </Typography>
@@ -54,8 +55,8 @@ const ShopRating = (props) => {
             <Avatar
               sx={{
                 backgroundColor: orange[600],
-                height: 56,
-                width: 56
+                height: 50,
+                width: 50
               }}
             >
               <GradeIcon />

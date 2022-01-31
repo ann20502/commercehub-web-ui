@@ -46,6 +46,7 @@ const PreparationTime = (props) => {
             <Typography
               color="textPrimary"
               variant="h4"
+              sx={{ fontSize: '18px' }}
             >
               PREPARATION TIME
             </Typography>
@@ -54,8 +55,8 @@ const PreparationTime = (props) => {
             <Avatar
               sx={{
                 backgroundColor: red[600],
-                height: 56,
-                width: 56
+                height: 50,
+                width: 50
               }}
             >
               <LocalShippingIcon />

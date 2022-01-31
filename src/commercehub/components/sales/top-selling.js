@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Avatar, Box, Card, CardContent, CardHeader, Divider, List, ListItem, ListItemAvatar, ListItemText, ListSubheader, styled, Typography } from "@mui/material";
+import { Avatar, Box, Card, CardContent, CardHeader, Divider, List, ListItem, ListItemAvatar, ListItemText, ListSubheader, MenuItem, Select, styled, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import React, { useEffect, useMemo } from "react";
 import moment from 'moment';
@@ -10,6 +10,22 @@ const TopSelling = (props) => {
   const CustomCardHeader = styled(CardHeader)(({ theme }) => ({
     '& .MuiCardHeader-action': {
       alignSelf: 'center'
+    }
+  }));
+
+  const CustomSelect = styled(Select)(({ theme }) => ({
+    '& .MuiSelect-select': {
+      color: theme.palette.primary.main,
+      fontSize: '0.9rem',
+      padding: '0',
+      marginRight: '0.3rem',
+      fontWeight: 500
+    },
+    '& .MuiSelect-icon': {
+      color: theme.palette.primary.main,
+    },
+    '& .MuiSelect-iconOpen': {
+      color: theme.palette.primary.main,
     }
   }));
 
@@ -97,10 +113,12 @@ const TopSelling = (props) => {
     }
 
     const getDateRange = (type) => {
+      const dateFrom = moment().subtract(1, 'months').startOf('month');
+      const dateTo = moment().subtract(1, 'months').endOf('month');
       // const dateFrom = moment().startOf('month');
       // const dateTo = moment().startOf('day');
-      const dateFrom = moment('1/10/2021', 'DD/MM/YYYY');
-      const dateTo = moment('31/12/2021', 'DD/MM/YYYY');
+      // const dateFrom = moment('1/10/2021', 'DD/MM/YYYY');
+      // const dateTo = moment('31/12/2021', 'DD/MM/YYYY');
       return { from: dateFrom, to: dateTo };
     }
 
@@ -138,6 +156,15 @@ const TopSelling = (props) => {
         sx={{
           alignItems: "center"
         }}
+        action={(
+          <CustomSelect
+            disableUnderline
+            variant="standard"
+            value="0"
+          >
+            <MenuItem value="0" sx={{ fontSize: '0.8rem' }}>Last Month</MenuItem>
+          </CustomSelect>
+        )}
       />
       <Divider />
       <CardContent>
