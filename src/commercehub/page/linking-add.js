@@ -54,7 +54,7 @@ const LinkingAdd = () => {
   const content =
     <Formik
       initialValues={{
-        platform: platforms && platforms.length > 0 ? platforms[0].name : "",
+        platform: platforms && platforms.length > 0 ? platforms[0] : "",
         partnerId: "",
         partnerSecret: ""
       }}
@@ -149,11 +149,11 @@ const LinkingAdd = () => {
                       {
                         platforms.map(platform => {
                           return <option
-                            key={platform.name}
-                            value={platform.name}
+                            key={platform}
+                            value={platform}
                             inputprops={{ style: { textTransform: 'capitalize' } }}
                           >
-                            {platform.name}
+                            {platform}
                           </option>;
                         })
                       }

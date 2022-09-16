@@ -46,7 +46,7 @@ const TopSelling = (props) => {
         const token = await getAccessTokenSilently();
         const fetches = shopParamArr.map(shopParams => {
           const finalParams = [...uriParams, "zone=" + shopParams.zone];
-          const finalUri = uri + "/" + shopParams.id + "?" + finalParams.join("&");
+          const finalUri = uri + "/" + shopParams.platform + "/" + shopParams.shopId + "?" + finalParams.join("&");
           return fetch(finalUri, { headers: { Authorization: `Bearer ${token}` } })
             .then(response => {
               if (response.ok) {
@@ -61,7 +61,8 @@ const TopSelling = (props) => {
                 const error = { message: 'Error while retrieving top selling: ' + json.error };
                 throw error;
               }
-              json.result.shopId = shopParams.id;
+              json.result.platform = shopParams.platform;
+              json.result.shopId = shopParams.shopId;
               return json;
             });
         });
@@ -85,7 +86,7 @@ const TopSelling = (props) => {
     const convertResultToDatasets = (results) => {
       return results.map((result, index) => {
         let shop = {};
-        shop.name = getShopName(result.shopId);
+        shop.name = getShopName(result.platform, result.shopId);
         shop.products = result.items.map(item => {
           return {
             id: item.itemId,
@@ -99,13 +100,12 @@ const TopSelling = (props) => {
       });
     };
 
-    const getShopName = (shopId) => {
+    const getShopName = (platform, shopId) => {
       for (var i = 0; i < props.shops.length; i++) {
         var shop = props.shops[i];
         if (!shop) { continue; }
 
-        const target = shop.platform + '_' + shop.shopId;
-        if (shopId === target) {
+        if (platform === shop.platform && shopId === shop.shopId) {
           return shop.shopName;
         }
       }
@@ -132,7 +132,8 @@ const TopSelling = (props) => {
     const getShopParamArr = () => {
       return props.shops.filter(Boolean).map(shop => {
         return {
-          id: shop.platform + '_' + shop.shopId,
+          platform: shop.platform,
+          shopId: shop.shopId,
           zone: getTimeZoneByRegion(shop.shopRegion)
         }
       });

@@ -49,7 +49,7 @@ const LinkingEdit = () => {
           setError(json.error);
         } else {
           setStatus(STATUS_CONTENT);
-          setLinking(json.result);
+          setLinking(json.result.linking);
         }
       } catch (error) {
         setStatus(STATUS_ERROR);

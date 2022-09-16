@@ -72,7 +72,8 @@ const Sales = (props) => {
     const getShopParamArr = () => {
       return props.shops.filter(Boolean).map(shop => {
         return {
-          id: shop.platform + '_' + shop.shopId,
+          platform: shop.platform,
+          shopId: shop.shopId,
           zone: getTimeZoneByRegion(shop.shopRegion)
         }
       });
@@ -108,8 +109,8 @@ const Sales = (props) => {
     const convertResultToDatasets = (results, type, from, to) => {
       return results.map((result, index) => {
         const obj = {};
-        const sales = result.sales;
-        const shopName = getShopName(result.shopId);
+        const sales = result.result;
+        const shopName = getShopName(result.platform, result.shopId);
 
         for (var i = 0; i < sales.length; i++) {
           const sale = sales[i];
@@ -132,13 +133,12 @@ const Sales = (props) => {
       });
     };
 
-    const getShopName = (shopId) => {
+    const getShopName = (platform, shopId) => {
       for (var i = 0; i < props.shops.length; i++) {
         var shop = props.shops[i];
         if (!shop) { continue; }
 
-        const target = shop.platform + '_' + shop.shopId;
-        if (shopId === target) {
+        if (shop.platform === platform && shop.shopId === shopId) {
           return shop.shopName;
         }
       }
@@ -195,7 +195,7 @@ const Sales = (props) => {
         const token = await getAccessTokenSilently();
         const fetches = shopParamArr.map(shopParams => {
           const finalParams = [...uriParams, "zone=" + shopParams.zone];
-          const finalUri = uri + "/" + shopParams.id + "?" + finalParams.join("&");
+          const finalUri = uri + "/" + shopParams.platform + "/" + shopParams.shopId + "?" + finalParams.join("&");
           return fetch(finalUri, { headers: { Authorization: `Bearer ${token}` } })
             .then(response => {
               if ( response.ok ) {
@@ -204,6 +204,15 @@ const Sales = (props) => {
                 const error = { message: 'Error while retrieving sales: ' + response.statusText }
                 throw error;
               }
+            })
+            .then(json => {
+              if (json.error) {
+                const error = { message: 'Error while retrieving sales: ' + json.error };
+                throw error;
+              }
+              json.platform = shopParams.platform;
+              json.shopId = shopParams.shopId;
+              return json;
             });
         });
 
@@ -215,7 +224,7 @@ const Sales = (props) => {
                   const error = { message: 'Error while retrieving sales: ' + json.error };
                   throw error;
                 }
-                return json.result;
+                return json;
               });
 
               const datasets = convertResultToDatasets(results, type, dateRange.from, dateRange.to);

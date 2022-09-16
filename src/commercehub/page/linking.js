@@ -109,7 +109,8 @@ const Linking = () => {
     </MyFab>;
 
   const PageContent = () => {
-    const items = linkings.map(linking => {
+    const items = linkings.map(mLinking => {
+      const linking = mLinking.linking;
       if (!linking.status) { return ""; }
 
       const shopName = linking.shopName ? linking.shopName : '-';
@@ -117,7 +118,7 @@ const Linking = () => {
 
       const targetUri = '/linking/edit?documentId=' + linking.id;
       const button = <Button size="small" component={Link} to={targetUri} color="primary">View Details</Button>;
-      const setup = linking.setup ?
+      const setup = linking.hasSetup ?
         <Typography variant="span" sx={{ color: green[500] }}>Completed</Typography>
         : <Typography variant="span" sx={{ color: orange[500] }}>Pending</Typography>;
 
@@ -128,7 +129,7 @@ const Linking = () => {
           <MyCardMedia
             component="img"
             alt="Platform Image"
-            image={linking.logo}
+            image={mLinking.pathLogo}
           />
           <CardContent sx={{ padding: '0.8rem', paddingTop: 0, paddingBottom: '1rem' }}>
             <Wrapper sx={{ paddingTop: 0, paddingBottom: 0 }}>

@@ -22,7 +22,7 @@ const ShopPerformance = (props) => {
 
         const token = await getAccessTokenSilently();
         const fetches = shopParamArr.map(shopParams => {
-          const finalUri = uri + "/" + shopParams.id;
+          const finalUri = uri + "/" + shopParams.platform + "/" + shopParams.shopId;
           return fetch(finalUri, { headers: { Authorization: `Bearer ${token}` } })
             .then(response => {
               if (response.ok) {
@@ -37,7 +37,8 @@ const ShopPerformance = (props) => {
                 const error = { message: 'Error while retrieving shop performance: ' + json.error };
                 throw error;
               }
-              json.result.shopId = shopParams.id;
+              json.result.platform = shopParams.platform;
+              json.result.shopId = shopParams.shopId;
               return json;
             });
         });
@@ -61,7 +62,7 @@ const ShopPerformance = (props) => {
     const convertResultToDatasets = (results) => {
       return results.map((result, index) => {
         let shop = {};
-        shop.name = getShopName(result.shopId);
+        shop.name = getShopName(result.platform, result.shopId);
         shop.rating = result.rating.performance;
         shop.preparationTime = result.fulfillmentPreparationTime.performance;
         shop.chatResponseTime = result.chatResponseTime.performance;
@@ -69,13 +70,12 @@ const ShopPerformance = (props) => {
       });
     };
 
-    const getShopName = (shopId) => {
+    const getShopName = (platform, shopId) => {
       for (var i = 0; i < props.shops.length; i++) {
         var shop = props.shops[i];
         if (!shop) { continue; }
 
-        const target = shop.platform + '_' + shop.shopId;
-        if (shopId === target) {
+        if (platform === shop.platform && shopId === shop.shopId) {
           return shop.shopName;
         }
       }
@@ -85,7 +85,8 @@ const ShopPerformance = (props) => {
     const getShopParamArr = () => {
       return props.shops.filter(Boolean).map(shop => {
         return {
-          id: shop.platform + '_' + shop.shopId
+          platform: shop.platform,
+          shopId: shop.shopId
         }
       });
     }
